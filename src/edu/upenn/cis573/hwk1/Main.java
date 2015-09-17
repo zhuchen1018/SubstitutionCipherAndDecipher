@@ -15,22 +15,20 @@ public class Main {
 				float correctRate = 0;
 				if (directoryListing.length != 0) {
 					for (File file : directoryListing) {
+						Util u = new Util();
 						String original = "";
 						String encrypted = "";
-						ConvertFileToString a = new ConvertFileToString();
-						original = a.convertFileToString(file);
-						EncryptAndDecrypt e = new EncryptAndDecrypt();
-						encrypted = e.encrypt(original);
+						original = u.convertFileToString(file);
+						encrypted = u.encrypt(original);
 						int[] frequency = new int[26];
 						for (File file1 : directoryListing) {
 							if (!file1.getName().equals(file.getName())) {
-								String text = a.convertFileToString(file1);
-								e.getFrequencyTable(text, frequency);
+								String text = u.convertFileToString(file1);
+								u.getFrequencyTable(text, frequency);
 							}
 						}
-						String decrypted = e.decrypt(encrypted, frequency);
-						Compare c = new Compare();
-						correctRate += c.compare(original, decrypted,
+						String decrypted = u.decrypt(encrypted, frequency);
+						correctRate += u.compare(original, decrypted,
 								file.getName());
 					}
 					correctRate = (float) totalCorrect / totalCount;
