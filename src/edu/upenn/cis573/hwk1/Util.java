@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.util.HashMap;
 
 public class Util {
-	public String convertFileToString(File file) {
+	public static String convertFileToString(File file) {
 		StringBuilder sb = new StringBuilder();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
@@ -20,7 +20,7 @@ public class Util {
 		return sb.toString();
 	}
 	
-	public String encrypt(String text) {
+	public static String encrypt(String text) {
 		HashMap<Character, Character> map = new HashMap<Character, Character>();
 		map.put('A', 'o');
 		map.put('B', 'p');
@@ -61,16 +61,16 @@ public class Util {
 		return new String(chars);
 	}
 	
-	public String decrypt(String encryptText, int[] frequencyTable) {
-		int[] frequencyTable2 = new int[26];
-		getFrequencyTable(encryptText, frequencyTable2);
+	public static String decrypt(String encryptText, int[] frequencyTableCorpus) {
+		int[] frequencyTableEncryptFile = new int[26];
+		updateFrequencyTable(encryptText, frequencyTableEncryptFile);
 		char[] corpusFreq = new char[26];
 		char[] encryptFreq = new char[26];
-		for (int i = 0; i < frequencyTable.length; i++) {
-			corpusFreq[i] = getMax(frequencyTable);
+		for (int i = 0; i < frequencyTableCorpus.length; i++) {
+			corpusFreq[i] = getMax(frequencyTableCorpus);
 		}
-		for (int i = 0; i < frequencyTable2.length; i++) {
-			encryptFreq[i] = getMax(frequencyTable2);
+		for (int i = 0; i < frequencyTableEncryptFile.length; i++) {
+			encryptFreq[i] = getMax(frequencyTableEncryptFile);
 		}
 		HashMap<Character, Character> map = new HashMap<Character, Character>();
 		for (int i = 0; i < corpusFreq.length; i++) {
@@ -103,7 +103,7 @@ public class Util {
 		return c;
 	}
 	
-	public void getFrequencyTable(String text, int[] frequencyTable) {
+	public static void updateFrequencyTable(String text, int[] frequencyTable) {
 		char[] chars = text.toCharArray();
 		for (int i = 0; i < chars.length; i++) {
 			char c = chars[i];
@@ -117,7 +117,7 @@ public class Util {
 		}
 		return;
 	}
-	public void compareAndCount(String originalText, String decryptedText,
+	public static void compareAndCount(String originalText, String decryptedText,
 			String Filename) {
 		long count = 0;
 		long correctCount = 0;
@@ -135,7 +135,7 @@ public class Util {
 		return;
 	}
 	
-	private void printSingleRes(String filename, long count, long correctCount){
+	private static void printSingleRes(String filename, long count, long correctCount){
 		System.out.println(filename + ": " + correctCount + " correct, "
 				+ (count - correctCount) + " incorrect");
 	}
