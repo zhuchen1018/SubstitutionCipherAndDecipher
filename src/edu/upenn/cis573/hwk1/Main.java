@@ -37,7 +37,7 @@ public class Main {
 			}
 			String decrypted = u.decrypt(encrypted, frequency);
 			u.compareAndCount(originaltext, decrypted, file.getName());
-			}
+		}
 		Util.printSummary(totalCount, totalCorrect);
 	}
 }
