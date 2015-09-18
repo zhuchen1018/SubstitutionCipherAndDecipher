@@ -12,12 +12,9 @@ public class Main {
             System.out.println("The number of runtime arguments is not correct");
             return;
         }
-        File dir = new File(args[0]);
-        if (!dir.isDirectory()) {
-            System.out.println("The specified directory does not exist");
+        File[] directoryListing = Util.readInFile(args[0]);
+        if(directoryListing == null)
             return;
-        }
-        File[] directoryListing = dir.listFiles();
         if (directoryListing.length == 0) {
             System.out.println("The specified directory is empty.");
             return;

@@ -6,6 +6,19 @@ import java.io.FileReader;
 import java.util.HashMap;
 
 public class Util {
+    public static File[] readInFile(String path){
+        File dir = new File(path);
+        if (!dir.exists()) {
+            System.out.println("The specified directory does not exist");
+            return null;
+        }
+        if (!dir.canRead()){
+            System.out.println("The specified directory cannot be opened for reading");
+            return null;
+        }
+        File[] directoryListing = dir.listFiles();
+        return directoryListing;
+    }
 	public static String convertFileToString(File file) {
 		StringBuilder sb = new StringBuilder();
 		try {
