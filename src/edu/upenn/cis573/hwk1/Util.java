@@ -19,6 +19,7 @@ public class Util {
 		}
 		return sb.toString();
 	}
+	
 	public String encrypt(String text) {
 		HashMap<Character, Character> map = new HashMap<Character, Character>();
 		map.put('A', 'o');
@@ -116,24 +117,35 @@ public class Util {
 		}
 		return;
 	}
-	public float compare(String originalText, String decryptedText,
+	public void compareAndCount(String originalText, String decryptedText,
 			String Filename) {
-		int count = 0;
-		int correctCount = 0;
-		float correctRate = 0;
+		long count = 0;
+		long correctCount = 0;
 		for (int i = 0; i < originalText.length(); i++) {
 			char c = originalText.charAt(i);
 			if ((97 <= c && c <= 122) || (65 <= c && c <= 90)) {
 				count++;
 				if (c == decryptedText.charAt(i) || c + 32 == decryptedText.charAt(i))
 					correctCount++;
-			}
+		    }
 		}
 		Main.totalCount += count;
 		Main.totalCorrect += correctCount;
-		System.out.println(Filename + " " + correctCount + " correct "
-				+ (count - correctCount) + " incorrect");
-		correctRate = (float) correctCount / count;
-		return correctRate;
+		printSingleRes(Filename, count, correctCount);
+		return;
 	}
+	
+	private void printSingleRes(String filename, long count, long correctCount){
+		System.out.println(filename + ": " + correctCount + " correct, "
+				+ (count - correctCount) + " incorrect");
+	}
+	
+	public static void printSummary(long totalCount, long totalCorrect){
+		float correctRate = (float) totalCorrect / totalCount;
+		System.out.println();
+		System.out.println("Total: " + totalCorrect + " correct, " +  
+				(totalCount - totalCorrect) + " incorrect");
+		System.out.println("Accuracy: " + correctRate * 100 + "%");
+	}
+	
 }

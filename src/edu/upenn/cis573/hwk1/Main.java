@@ -3,23 +3,34 @@ package edu.upenn.cis573.hwk1;
 import java.io.File;
 
 public class Main {
-  
+
 	static long totalCount = 0;
 	static long totalCorrect = 0;
 
-	public static void main(String[] args){
-		if (args.length == 1) {
+	public static void main(String[] args) {
+		if (args.length != 1) {
+			System.out.println("The number of runtime arguments is not correct");
+			return;
+		}
+		else{
 			File dir = new File(args[0]);
-			if (dir.isDirectory()) {
+			if (!dir.isDirectory()) {
+				System.out.println("The specified directory does not exist");
+				return;
+			}
+			else{
 				File[] directoryListing = dir.listFiles();
-				float correctRate = 0;
-				if (directoryListing.length != 0) {
+				if (directoryListing.length == 0) {
+					System.out.println("The specified directory is empty.");
+					return;
+				}
+				else{
 					for (File file : directoryListing) {
 						Util u = new Util();
-						String original = "";
+						String originaltext = "";
 						String encrypted = "";
-						original = u.convertFileToString(file);
-						encrypted = u.encrypt(original);
+						originaltext = u.convertFileToString(file);
+						encrypted = u.encrypt(originaltext);
 						int[] frequency = new int[26];
 						for (File file1 : directoryListing) {
 							if (!file1.getName().equals(file.getName())) {
@@ -28,22 +39,11 @@ public class Main {
 							}
 						}
 						String decrypted = u.decrypt(encrypted, frequency);
-						correctRate += u.compare(original, decrypted,
-								file.getName());
-					}
-					correctRate = (float) totalCorrect / totalCount;
-					System.out.println();
-					System.out.println("TotalCorrect " + totalCorrect + " , "
-							+ (totalCount - totalCorrect) + " incorrect");
-					System.out.println("Accuracy : " + correctRate * 100 + "%");
-				} else {
-					System.out.println("The specified directory is empty.");
+						u.compareAndCount(originaltext, decrypted, file.getName());
+						}
+					Util.printSummary(totalCount, totalCorrect);
 				}
-			} else {
-				System.out.println("The specified directory does not exist");
-			}
-		} else {
-			System.out.println("The number of runtime arguments is not correct");
+			} 
 		}
 	}
 }
